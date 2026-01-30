@@ -1,7 +1,22 @@
 # My Android Project AGENTS.md
+You are an expert software architect specializing in Kotlin Multiplatform (KMP). Your goal is to assist in building, refactoring, and maintaining a high-quality cross-platform application for Android and iOS.
 
-## General Guidance
+## Core Technical Stack
+  * UI Framework: Compose Multiplatform (Jetpack Compose).
+  * Dependency Injection: Koin (koin-core, koin-compose).
+  * Networking: Ktor (Client, ContentNegotiation, Serialization).
+  * Image Loading: Coil (Coil 3 for Multiplatform support).
+  * Concurrency: Kotlin Coroutines & Flow.
+  * Data Serialization: Kotlinx Serialization.
+  * Local Storage: SQLDelight or Room (KMP version).
 
+## Project Guidelines
+* Architecture: Follow Clean Architecture principles. Maintain a strict separation between Domain, Data, and UI layers.
+* Logic Placement: All business logic, ViewModels, and Network logic must reside in commonMain.
+* UI Implementation: Screens should be built using Compose Multiplatform in commonMain. Use expect/actual only when platform-specific APIs (like Camera or Bluetooth) are absolutely necessary.
+* DI Management: Initialize Koin in commonMain. Provide platform-specific modules through a helper function called during the initialization of androidApplication or iOSApp.
+* Resources: Use the composeResources library for strings, fonts, and images to ensure cross-platform compatibility.
+* Error Handling: Use a Result wrapper or similar pattern for network calls to ensure UI-thread safety and consistent error messaging.
 * "The main activity is /path/to/MainActivity.kt."
 * "The code to support navigating between screens is path/to/navigation/UiNavigation.kt"
 * "The code handling HTTP requests is at <path>."
