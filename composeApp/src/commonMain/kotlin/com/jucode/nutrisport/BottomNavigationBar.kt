@@ -1,4 +1,4 @@
-package com.jucode.nutrisport.dashboard
+package com.jucode.nutrisport
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
