@@ -12,8 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.jucode.nutrisport.dashboard.BottomNavigationBar
+import com.jucode.nutrisport.BottomNavigationBar
 import com.jucode.nutrisport.dashboard.DashboardPage
+import com.jucode.nutrisport.profile.ProfilePage
 
 @Composable
 fun MainNavigation() {
@@ -29,7 +30,7 @@ fun MainNavigation() {
             composable(Screen.Home.route) { DashboardPage() }
             composable(Screen.Cart.route) { PlaceholderScreen("Cart") }
             composable(Screen.Deal.route) { PlaceholderScreen("Deals") }
-            composable(Screen.Profile.route) { PlaceholderScreen("Profile") }
+            composable(Screen.Profile.route) { ProfilePage() }
         }
     }
 }
