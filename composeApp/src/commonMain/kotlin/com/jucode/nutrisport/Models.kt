@@ -1,5 +1,8 @@
 package com.jucode.nutrisport
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import org.jetbrains.compose.resources.DrawableResource
 import nutrisport.composeapp.generated.resources.Res
 import nutrisport.composeapp.generated.resources.compose_multiplatform
@@ -16,6 +19,14 @@ data class Category(
     val name: String,
     val iconRes: DrawableResource
 )
+
+object UserSettings {
+    var name by mutableStateOf("Jawad Usman")
+    var address by mutableStateOf("123 Sport St, Fitness City")
+    var phone by mutableStateOf("+1 234 567 890")
+    var email by mutableStateOf("jawad.usman@jdcoding.com")
+    var profileImageUri by mutableStateOf("https://ui-avatars.com/api/?name=John+Doe&background=00E5FF&color=fff")
+}
 
 object MockData {
     val categories = listOf(
