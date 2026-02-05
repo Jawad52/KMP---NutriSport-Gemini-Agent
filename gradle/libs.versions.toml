@@ -17,6 +17,7 @@ androidx-splash = "1.2.0"
 navigationCompose = "2.9.1"
 coil = "3.3.0"
 iconsExtended = "1.7.1"
+multiplatform-nav3 = "1.0.0-alpha06"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -41,6 +42,7 @@ navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-co
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 coil-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil" }
 compose-material-icons-extended = { module = "org.jetbrains.compose.material:material-icons-extended", version.ref = "iconsExtended" }
+jetbrains-navigation3-ui = { module = "org.jetbrains.androidx.navigation3:navigation3-ui", version.ref = "multiplatform-nav3" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

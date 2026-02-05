@@ -1,12 +1,7 @@
 package com.jucode.nutrisport.dashboard.templates
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -25,7 +20,11 @@ import com.jucode.nutrisport.Product
 
 
 @Composable
-fun ProductSection(title: String, products: List<Product>) {
+fun ProductSection(
+    title: String,
+    products: List<Product>,
+    onProductClick: (Product) -> Unit
+) {
     Column(modifier = Modifier.padding(vertical = 16.dp)) {
         Text(
             title,
@@ -41,7 +40,8 @@ fun ProductSection(title: String, products: List<Product>) {
                 Card(
                     modifier = Modifier
                         .width(160.dp)
-                        .clip(RoundedCornerShape(12.dp)),
+                        .clip(RoundedCornerShape(12.dp))
+                        .clickable { onProductClick(product) },
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
                 ) {
                     Column {

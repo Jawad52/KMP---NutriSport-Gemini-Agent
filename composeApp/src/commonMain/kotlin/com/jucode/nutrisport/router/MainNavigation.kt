@@ -7,31 +7,47 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation3.runtime.NavEntry
+import androidx.navigation3.ui.NavDisplay
 import com.jucode.nutrisport.BottomNavigationBar
 import com.jucode.nutrisport.dashboard.DashboardPage
+import com.jucode.nutrisport.dashboard.ProductDetailsPage
 import com.jucode.nutrisport.profile.ProfilePage
 
 @Composable
 fun MainNavigation() {
-    val navController = rememberNavController()
+    val backStack = remember { mutableStateListOf<Any>(Screen.Home) }
     Scaffold(
-        bottomBar = { BottomNavigationBar(navController) }
+        bottomBar = { BottomNavigationBar(backStack) }
     ) { paddingValues ->
-        NavHost(
-            navController = navController,
-            startDestination = Screen.Home.route,
-            modifier = Modifier.padding(paddingValues)
-        ) {
-            composable(Screen.Home.route) { DashboardPage() }
-            composable(Screen.Cart.route) { PlaceholderScreen("Cart") }
-            composable(Screen.Deal.route) { PlaceholderScreen("Deals") }
-            composable(Screen.Profile.route) { ProfilePage() }
-        }
+        NavDisplay(
+            backStack = backStack,
+            modifier = Modifier.padding(paddingValues),
+            onBack = { backStack.removeLastOrNull() },
+            entryProvider = { key ->
+                when (key) {
+                    is Screen.Home -> NavEntry(key) {
+                        DashboardPage(onProductClick = { product ->
+                            backStack.add(Screen.ProductDetails(product.id))
+                        })
+                    }
+                    is Screen.Cart -> NavEntry(key) { PlaceholderScreen("Cart") }
+                    is Screen.Deal -> NavEntry(key) { PlaceholderScreen("Deals") }
+                    is Screen.Profile -> NavEntry(key) { ProfilePage() }
+                    is Screen.ProductDetails -> NavEntry(key) {
+                        ProductDetailsPage(
+                            productId = key.productId,
+                            onBack = { backStack.removeLastOrNull() }
+                        )
+                    }
+                    else -> NavEntry(Unit) { PlaceholderScreen("Unknown") }
+                }
+            }
+        )
     }
 }
 
