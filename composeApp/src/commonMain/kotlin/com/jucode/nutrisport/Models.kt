@@ -11,7 +11,10 @@ data class Product(
     val id: String,
     val name: String,
     val price: Double,
-    val imageRes: DrawableResource
+    val imageRes: DrawableResource,
+    val rating: Double = 4.5,
+    val category: String = "Supplements",
+    val description: String = "Premium quality product designed to support your fitness goals. Made with high-quality ingredients for maximum effectiveness."
 )
 
 data class Category(
@@ -38,20 +41,24 @@ object MockData {
     )
 
     val topSellers = listOf(
-        Product("1", "Whey Protein", 59.99, Res.drawable.compose_multiplatform),
-        Product("2", "Creatine Monohydrate", 24.99, Res.drawable.compose_multiplatform),
-        Product("3", "BCAA Amino Acids", 29.99, Res.drawable.compose_multiplatform)
+        Product("1", "Whey Protein", 59.99, Res.drawable.compose_multiplatform, 4.8, "Protein", "Best-selling whey protein isolate for muscle recovery."),
+        Product("2", "Creatine Monohydrate", 24.99, Res.drawable.compose_multiplatform, 4.9, "Supplements", "Pure creatine monohydrate to boost strength and power."),
+        Product("3", "BCAA Amino Acids", 29.99, Res.drawable.compose_multiplatform, 4.7, "Amino Acids", "Essential amino acids to reduce muscle soreness and fatigue.")
     )
 
     val newArrivals = listOf(
-        Product("4", "Vegan Protein Bar", 3.50, Res.drawable.compose_multiplatform),
-        Product("5", "Magnesium ZMA", 19.99, Res.drawable.compose_multiplatform),
-        Product("6", "Shaker Bottle", 12.00, Res.drawable.compose_multiplatform)
+        Product("4", "Vegan Protein Bar", 3.50, Res.drawable.compose_multiplatform, 4.6, "Snacks", "Delicious plant-based protein bar for on-the-go snacking."),
+        Product("5", "Magnesium ZMA", 19.99, Res.drawable.compose_multiplatform, 4.5, "Vitamins", "Support sleep quality and muscle recovery with ZMA."),
+        Product("6", "Shaker Bottle", 12.00, Res.drawable.compose_multiplatform, 4.4, "Equipment", "Durable and leak-proof shaker bottle for your supplements.")
     )
+
+    val allProducts = topSellers + newArrivals
 
     val promotions = listOf(
         "Summer Sale: 20% OFF",
         "Free Shipping on orders over $50",
         "New Flavor: Tropical Punch is here!"
     )
+
+    fun getProductById(id: String?) = allProducts.find { it.id == id }
 }

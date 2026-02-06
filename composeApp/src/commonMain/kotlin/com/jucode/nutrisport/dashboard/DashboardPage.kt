@@ -12,15 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.jucode.nutrisport.MockData
-import com.jucode.nutrisport.dashboard.templates.CategoryRow
-import com.jucode.nutrisport.dashboard.templates.DashboardHeader
-import com.jucode.nutrisport.dashboard.templates.ProductSection
-import com.jucode.nutrisport.dashboard.templates.PromotionSlider
-import com.jucode.nutrisport.dashboard.templates.RecentOrder
+import com.jucode.nutrisport.Product
+import com.jucode.nutrisport.dashboard.templates.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DashboardPage() {
+fun DashboardPage(onProductClick: (Product) -> Unit) {
     Scaffold(
         topBar = { DashboardHeader() }
     ) { padding ->
@@ -33,9 +30,21 @@ fun DashboardPage() {
         ) {
             item { PromotionSlider() }
             item { CategoryRow() }
-            item { ProductSection("Top Selling", MockData.topSellers) }
+            item { 
+                ProductSection(
+                    title = "Top Selling", 
+                    products = MockData.topSellers,
+                    onProductClick = onProductClick
+                ) 
+            }
             item { RecentOrder() }
-            item { ProductSection("New Products", MockData.newArrivals) }
+            item { 
+                ProductSection(
+                    title = "New Products", 
+                    products = MockData.newArrivals,
+                    onProductClick = onProductClick
+                ) 
+            }
         }
     }
 }
