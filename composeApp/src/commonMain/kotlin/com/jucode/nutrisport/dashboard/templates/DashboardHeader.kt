@@ -21,6 +21,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import com.jucode.nutrisport.UserSettings
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -35,7 +36,7 @@ fun DashboardHeader() {
         },
         navigationIcon = {
             AsyncImage(
-                model = "https://ui-avatars.com/api/?name=User&background=00E5FF&color=fff",
+                model = UserSettings.profileImageUri,
                 contentDescription = "Profile",
                 modifier = Modifier
                     .padding(8.dp)

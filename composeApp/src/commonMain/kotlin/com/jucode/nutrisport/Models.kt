@@ -24,10 +24,10 @@ data class Category(
 )
 
 object UserSettings {
-    var name by mutableStateOf("John Doe")
+    var name by mutableStateOf("Jawad Usman")
     var address by mutableStateOf("123 Sport St, Fitness City")
     var phone by mutableStateOf("+1 234 567 890")
-    var email by mutableStateOf("john.doe@example.com")
+    var email by mutableStateOf("jawad.usman@jdcoding.com")
     var profileImageUri by mutableStateOf("https://ui-avatars.com/api/?name=John+Doe&background=00E5FF&color=fff")
 }
 
