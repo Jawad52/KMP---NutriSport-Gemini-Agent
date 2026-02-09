@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.ui.NavDisplay
 import com.jucode.nutrisport.BottomNavigationBar
+import com.jucode.nutrisport.cart.CartPage
 import com.jucode.nutrisport.dashboard.DashboardPage
 import com.jucode.nutrisport.dashboard.ProductDetailsPage
 import com.jucode.nutrisport.profile.ProfilePage
@@ -35,7 +36,7 @@ fun MainNavigation() {
                             backStack.add(Screen.ProductDetails(product.id))
                         })
                     }
-                    is Screen.Cart -> NavEntry(key) { PlaceholderScreen("Cart") }
+                    is Screen.Cart -> NavEntry(key) { CartPage() () }
                     is Screen.Deal -> NavEntry(key) { PlaceholderScreen("Deals") }
                     is Screen.Profile -> NavEntry(key) { ProfilePage() }
                     is Screen.ProductDetails -> NavEntry(key) {
