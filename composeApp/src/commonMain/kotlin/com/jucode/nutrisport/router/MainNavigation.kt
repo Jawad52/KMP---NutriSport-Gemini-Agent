@@ -36,7 +36,7 @@ fun MainNavigation() {
                             backStack.add(Screen.ProductDetails(product.id))
                         })
                     }
-                    is Screen.Cart -> NavEntry(key) { CartPage() () }
+                    is Screen.Cart -> NavEntry(key) { CartPage() }
                     is Screen.Deal -> NavEntry(key) { PlaceholderScreen("Deals") }
                     is Screen.Profile -> NavEntry(key) { ProfilePage() }
                     is Screen.ProductDetails -> NavEntry(key) {
