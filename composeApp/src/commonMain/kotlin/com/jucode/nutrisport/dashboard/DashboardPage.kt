@@ -17,9 +17,13 @@ import com.jucode.nutrisport.dashboard.templates.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DashboardPage(onProductClick: (Product) -> Unit) {
+fun DashboardPage(
+    onProductClick: (Product) -> Unit,
+    onSearchClick: () -> Boolean,
+    onNotificationClick: () -> Boolean
+) {
     Scaffold(
-        topBar = { DashboardHeader() }
+        topBar = { DashboardHeader(onSearchClick, onNotificationClick) }
     ) { padding ->
         LazyColumn(
             modifier = Modifier

@@ -26,7 +26,9 @@ import com.jucode.nutrisport.UserSettings
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DashboardHeader() {
+fun DashboardHeader(
+    onSearchClick: () -> Boolean,
+    onNotificationClick: () -> Boolean) {
     TopAppBar(
         title = {
             Text(
@@ -47,10 +49,10 @@ fun DashboardHeader() {
             )
         },
         actions = {
-            IconButton(onClick = {}) {
+            IconButton(onClick = {onSearchClick.invoke()}) {
                 Icon(Icons.Default.Search, "Search", tint = MaterialTheme.colorScheme.primary)
             }
-            IconButton(onClick = {}) {
+            IconButton(onClick = {onNotificationClick.invoke()}) {
                 Icon(Icons.Default.Notifications, "Notifications", tint = MaterialTheme.colorScheme.primary)
             }
         },

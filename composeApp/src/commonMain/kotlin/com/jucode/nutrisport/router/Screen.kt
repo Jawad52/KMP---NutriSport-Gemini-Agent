@@ -12,5 +12,7 @@ sealed class Screen(val route: String, val icon: ImageVector? = null, val label:
     object Cart : Screen("cart", Icons.Default.ShoppingCart, "Cart")
     object Deal : Screen("deal", Icons.Default.LocalOffer, "Deals")
     object Profile : Screen("profile", Icons.Default.Person, "Profile")
-    data class ProductDetails(val productId: String) : Screen("product_details/{productId}")
+    data class ProductDetails(val productId: String) : Screen("product_details")
+    object Search : Screen("search")
+    object Notification : Screen("notification")
 }

@@ -16,15 +16,21 @@ import androidx.navigation3.ui.NavDisplay
 import com.jucode.nutrisport.BottomNavigationBar
 import com.jucode.nutrisport.cart.CartPage
 import com.jucode.nutrisport.dashboard.DashboardPage
+import com.jucode.nutrisport.notificaiton.NotificationPage
 import com.jucode.nutrisport.dashboard.ProductDetailsPage
 import com.jucode.nutrisport.deals.DealsPage
+import com.jucode.nutrisport.search.SearchPage
 import com.jucode.nutrisport.profile.ProfilePage
 
 @Composable
 fun MainNavigation() {
     val backStack = remember { mutableStateListOf<Any>(Screen.Home) }
     Scaffold(
-        bottomBar = { BottomNavigationBar(backStack) }
+        bottomBar = {
+            // Hide bottom bar for specific screens if needed,
+            // but keeping it simple for now
+            BottomNavigationBar(backStack)
+        }
     ) { paddingValues ->
         NavDisplay(
             backStack = backStack,
@@ -33,18 +39,22 @@ fun MainNavigation() {
             entryProvider = { key ->
                 when (key) {
                     is Screen.Home -> NavEntry(key) {
-                        DashboardPage(onProductClick = { product ->
-                            backStack.add(Screen.ProductDetails(product.id))
-                        })
+                        DashboardPage(
+                            onProductClick = { product ->
+                                backStack.add(Screen.ProductDetails(product.id))
+                            },
+                            onSearchClick = { backStack.add(Screen.Search) },
+                            onNotificationClick = { backStack.add(Screen.Notification) }
+                        )
                     }
                     is Screen.Cart -> NavEntry(key) { CartPage() }
-                    is Screen.Deal -> NavEntry(key) { 
+                    is Screen.Deal -> NavEntry(key) {
                         DealsPage(
                             onCartClick = {
                                 backStack.clear()
                                 backStack.add(Screen.Cart)
                             }
-                        ) 
+                        )
                     }
                     is Screen.Profile -> NavEntry(key) { ProfilePage() }
                     is Screen.ProductDetails -> NavEntry(key) {
@@ -53,7 +63,13 @@ fun MainNavigation() {
                             onBack = { backStack.removeLastOrNull() }
                         )
                     }
-                    else -> NavEntry(Unit) { PlaceholderScreen("Unknown") }
+                    is Screen.Search -> NavEntry(key) {
+                        SearchPage(onBack = { backStack.removeLastOrNull() })
+                    }
+                    is Screen.Notification -> NavEntry(key) {
+                        NotificationPage(onBack = { backStack.removeLastOrNull() })
+                    }
+                    else -> NavEntry(key) { PlaceholderScreen(key.toString()) }
                 }
             }
         )
