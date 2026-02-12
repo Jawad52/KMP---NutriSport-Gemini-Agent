@@ -21,7 +21,7 @@ import com.jucode.nutrisport.UserSettings
 import com.jucode.nutrisport.profile.template.ThemeLayout
 
 @Composable
-fun ProfilePage() {
+fun ProfilePage(onContactUsClick: () -> Unit) {
     var showEditDialog by remember { mutableStateOf(false) }
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -36,7 +36,7 @@ fun ProfilePage() {
                 UserInfoSection()
             }
             item {
-                ContactUsSection()
+                ContactUsSection(onClick = onContactUsClick)
             }
             item {
                 ThemeLayout()
@@ -98,12 +98,12 @@ private fun UserInfoSection() {
 }
 
 @Composable
-private fun ContactUsSection() {
+private fun ContactUsSection(onClick: () -> Unit) {
     Card(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { /* TODO: Handle click */ }
+                .clickable { onClick() }
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
