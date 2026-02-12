@@ -16,20 +16,19 @@ import androidx.navigation3.ui.NavDisplay
 import com.jucode.nutrisport.BottomNavigationBar
 import com.jucode.nutrisport.cart.CartPage
 import com.jucode.nutrisport.dashboard.DashboardPage
-import com.jucode.nutrisport.notificaiton.NotificationPage
 import com.jucode.nutrisport.dashboard.ProductDetailsPage
 import com.jucode.nutrisport.deals.DealsPage
-import com.jucode.nutrisport.search.SearchPage
+import com.jucode.nutrisport.notificaiton.NotificationPage
+import com.jucode.nutrisport.profile.ChatBotPage
 import com.jucode.nutrisport.profile.ProfilePage
+import com.jucode.nutrisport.search.SearchPage
 
 @Composable
 fun MainNavigation() {
     val backStack = remember { mutableStateListOf<Any>(Screen.Home) }
     Scaffold(
-        bottomBar = {
-            // Hide bottom bar for specific screens if needed,
-            // but keeping it simple for now
-            BottomNavigationBar(backStack)
+        bottomBar = { 
+            BottomNavigationBar(backStack) 
         }
     ) { paddingValues ->
         NavDisplay(
@@ -48,15 +47,19 @@ fun MainNavigation() {
                         )
                     }
                     is Screen.Cart -> NavEntry(key) { CartPage() }
-                    is Screen.Deal -> NavEntry(key) {
+                    is Screen.Deal -> NavEntry(key) { 
                         DealsPage(
                             onCartClick = {
                                 backStack.clear()
                                 backStack.add(Screen.Cart)
                             }
-                        )
+                        ) 
                     }
-                    is Screen.Profile -> NavEntry(key) { ProfilePage() }
+                    is Screen.Profile -> NavEntry(key) { 
+                        ProfilePage(onContactUsClick = {
+                            backStack.add(Screen.ChatBot)
+                        }) 
+                    }
                     is Screen.ProductDetails -> NavEntry(key) {
                         ProductDetailsPage(
                             productId = key.productId,
@@ -68,6 +71,9 @@ fun MainNavigation() {
                     }
                     is Screen.Notification -> NavEntry(key) {
                         NotificationPage(onBack = { backStack.removeLastOrNull() })
+                    }
+                    is Screen.ChatBot -> NavEntry(key) {
+                        ChatBotPage(onBack = { backStack.removeLastOrNull() })
                     }
                     else -> NavEntry(key) { PlaceholderScreen(key.toString()) }
                 }
