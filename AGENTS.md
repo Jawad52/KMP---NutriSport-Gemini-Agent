@@ -35,5 +35,38 @@ You are an expert software architect specializing in Kotlin Multiplatform (KMP).
 *   **Compose First:** Adhere to modern [Jetpack Compose](https://developer.android.com) best practices.
 *   **Kotlin:** Use idiomatic Kotlin for all code.
 
+## Business logic and data layer
+
+Act as a Senior Kotlin Multiplatform Architect. Your task is to implement a feature module using KMP following the strictest standards of Clean Architecture, MVVM, and MVI using Kotlin Coroutines and Flow.
+
+Core Requirements
+Clean Architecture Layers:
+
+Domain Layer: Pure Kotlin. Contains Entities, Repository Interfaces, and Use Cases. Use Cases must execute business logic and return a Flow<Result<T>>.
+Data Layer: Repository implementations. Use Ktor for networking. Must include DTOs and Mappers to transform data into Domain Entities.
+Presentation Layer (MVI + MVVM):
+State: A single immutable UiState data class.
+Intent: A sealed class representing user actions.
+Effect: A sealed class for side effects (e.g., navigation, snackbars) using Channel or SharedFlow.
+ViewModel: Expose a StateFlow for the UI. Process Intents using Coroutine Scopes and update the State accordingly.
+
+Technical Implementation:
+Asynchronous Logic: Use Flow operators (map, catch, onStart, flatMapLatest) for reactive data streams.
+Threading: Ensure proper use of Dispatchers.Main and Dispatchers.Default/IO within the KMP lifecycle.
+Error Handling: Implement a robust, centralized error-handling strategy using a Result wrapper.
+
+Strict Standards:
+No framework dependencies in the Domain layer.
+Dependency Injection using Koin.
+Fully documented code with clear separation of concerns.
+
+The Task
+Implement the implementation for: [INSERT FEATURE DESCRIPTION HERE].
+Provide code for:
+#Domain: Entity, Repository Interface, and Flow-based Use Case.
+#Data: Ktor API Service, DTOs, and Repository Implementation.
+#Presentation: MVI State/Intent/Effect contracts.
+#ViewModel: Implementation using viewModelScope and StateFlow.
+
 ## Testing Instructions
 *   Run all tests using `./gradlew test` before finalizing any changes.
