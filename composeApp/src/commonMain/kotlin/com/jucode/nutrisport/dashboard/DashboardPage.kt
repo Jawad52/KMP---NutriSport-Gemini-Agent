@@ -32,7 +32,7 @@ fun DashboardPage(
                 .background(MaterialTheme.colorScheme.background),
             contentPadding = PaddingValues(bottom = 16.dp)
         ) {
-            item { PromotionSlider() }
+            item { PromotionSlider(banners = MockData.banners) }
             item { CategoryRow() }
             item { 
                 ProductSection(

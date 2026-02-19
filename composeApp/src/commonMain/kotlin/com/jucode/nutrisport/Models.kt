@@ -1,6 +1,7 @@
 package com.jucode.nutrisport
 
 import androidx.compose.runtime.*
+import com.jucode.nutrisport.dashboard.domain.Banner
 import org.jetbrains.compose.resources.DrawableResource
 import nutrisport.composeapp.generated.resources.Res
 import nutrisport.composeapp.generated.resources.compose_multiplatform
@@ -100,6 +101,12 @@ object MockData {
         "Summer Sale: 20% OFF",
         "Free Shipping on orders over $50",
         "New Flavor: Tropical Punch is here!"
+    )
+
+    val banners = listOf(
+        Banner("1", "https://picsum.photos/800/400?random=1", "Summer Sale: 20% OFF"),
+        Banner("2", "https://picsum.photos/800/400?random=2", "Free Shipping on orders over $50"),
+        Banner("3", "https://picsum.photos/800/400?random=3", "New Flavor: Tropical Punch is here!")
     )
 
     fun getProductById(id: String?) = allProducts.find { it.id == id }
