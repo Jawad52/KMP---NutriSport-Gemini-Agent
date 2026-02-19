@@ -46,6 +46,11 @@ kotlin {
             implementation(libs.compose.material.icons.extended)
             implementation(libs.jetbrains.navigation3.ui)
             
+            // Koin dependencies
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
+            
             // Ktor dependencies
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.content.negotiation)
