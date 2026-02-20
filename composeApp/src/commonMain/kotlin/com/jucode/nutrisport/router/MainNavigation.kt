@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.ui.NavDisplay
 import com.jucode.nutrisport.BottomNavigationBar
+import com.jucode.nutrisport.auth.LoginPage
 import com.jucode.nutrisport.cart.CartPage
 import com.jucode.nutrisport.dashboard.DashboardPage
 import com.jucode.nutrisport.dashboard.ProductDetailsPage
@@ -25,10 +26,16 @@ import com.jucode.nutrisport.search.SearchPage
 
 @Composable
 fun MainNavigation() {
-    val backStack = remember { mutableStateListOf<Any>(Screen.Home) }
+    val backStack = remember { mutableStateListOf<Any>(Screen.Login) }
+    
+    val currentScreen = backStack.lastOrNull()
+    val showBottomBar = currentScreen != Screen.Login
+
     Scaffold(
         bottomBar = { 
-            BottomNavigationBar(backStack) 
+            if (showBottomBar) {
+                BottomNavigationBar(backStack) 
+            }
         }
     ) { paddingValues ->
         NavDisplay(
@@ -37,6 +44,12 @@ fun MainNavigation() {
             onBack = { backStack.removeLastOrNull() },
             entryProvider = { key ->
                 when (key) {
+                    is Screen.Login -> NavEntry(key) {
+                        LoginPage(onLoginSuccess = {
+                            backStack.clear()
+                            backStack.add(Screen.Home)
+                        })
+                    }
                     is Screen.Home -> NavEntry(key) {
                         DashboardPage(
                             onProductClick = { product ->
