@@ -8,6 +8,7 @@ import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.ui.graphics.vector.ImageVector
 
 sealed class Screen(val icon: ImageVector? = null, val label: String? = null) {
+    object Login : Screen()
     object Home : Screen(Icons.Default.Home, "Home")
     object Cart : Screen(Icons.Default.ShoppingCart, "Cart")
     object Deal : Screen(Icons.Default.LocalOffer, "Deals")
