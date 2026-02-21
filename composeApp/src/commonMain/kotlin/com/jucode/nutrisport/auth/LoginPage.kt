@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.painterResource
 import nutrisport.composeapp.generated.resources.Res
-import nutrisport.composeapp.generated.resources.compose_multiplatform
+import nutrisport.composeapp.generated.resources.ic_nutri_logo
 
 @Composable
 fun LoginPage(onLoginSuccess: () -> Unit) {
@@ -34,7 +34,7 @@ fun LoginPage(onLoginSuccess: () -> Unit) {
         verticalArrangement = Arrangement.Center
     ) {
         Image(
-            painter = painterResource(Res.drawable.compose_multiplatform),
+            painter = painterResource(Res.drawable.ic_nutri_logo),
             contentDescription = "Logo",
             modifier = Modifier.size(120.dp)
         )
