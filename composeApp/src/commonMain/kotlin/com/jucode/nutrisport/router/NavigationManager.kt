@@ -1,13 +1,13 @@
 package com.jucode.nutrisport.router
 
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
 
 class NavigationManager {
-    private val _shortcutEvents = MutableSharedFlow<String>(extraBufferCapacity = 1)
-    val shortcutEvents = _shortcutEvents.asSharedFlow()
+    private val _shortcutEvents = Channel<String>(Channel.BUFFERED)
+    val shortcutEvents = _shortcutEvents.receiveAsFlow()
 
     fun triggerShortcut(id: String) {
-        _shortcutEvents.tryEmit(id)
+        _shortcutEvents.trySend(id)
     }
 }

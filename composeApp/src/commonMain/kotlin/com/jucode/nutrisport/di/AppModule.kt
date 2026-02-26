@@ -6,6 +6,8 @@ import com.jucode.nutrisport.dashboard.domain.BannerRepository
 import com.jucode.nutrisport.dashboard.domain.GetBannersUseCase
 import com.jucode.nutrisport.dashboard.presenter.DashboardViewModel
 import com.jucode.nutrisport.router.NavigationManager
+import org.koin.core.context.startKoin
+import org.koin.core.module.Module
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
@@ -18,3 +20,9 @@ val appModule = module {
     factoryOf(::GetBannersUseCase)
     factoryOf(::DashboardViewModel)
 }
+
+fun initKoin(appDeclaration: org.koin.dsl.KoinAppDeclaration = {}) =
+    startKoin {
+        appDeclaration()
+        modules(appModule)
+    }
