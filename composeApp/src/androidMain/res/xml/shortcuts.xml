@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="deals"
+        android:enabled="true"
+        android:icon="@drawable/ic_nutrisport_logo"
+        android:shortcutShortLabel="@string/shortcut_deals_label">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.jucode.nutrisport"
+            android:targetClass="com.jucode.nutrisport.MainActivity" />
+        <extra android:key="shortcut_id" android:value="deals" />
+    </shortcut>
+    <shortcut
+        android:shortcutId="cart"
+        android:enabled="true"
+        android:icon="@drawable/ic_nutrisport_logo"
+        android:shortcutShortLabel="@string/shortcut_cart_label">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.jucode.nutrisport"
+            android:targetClass="com.jucode.nutrisport.MainActivity" />
+        <extra android:key="shortcut_id" android:value="cart" />
+    </shortcut>
+</shortcuts>

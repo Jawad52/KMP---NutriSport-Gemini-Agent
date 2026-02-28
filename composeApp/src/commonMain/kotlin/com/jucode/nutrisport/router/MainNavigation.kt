@@ -7,6 +7,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -14,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.ui.NavDisplay
 import com.jucode.nutrisport.BottomNavigationBar
-import com.jucode.nutrisport.auth.LoginPage
 import com.jucode.nutrisport.cart.CartPage
 import com.jucode.nutrisport.dashboard.DashboardPage
 import com.jucode.nutrisport.dashboard.ProductDetailsPage
@@ -23,19 +23,31 @@ import com.jucode.nutrisport.notificaiton.NotificationPage
 import com.jucode.nutrisport.profile.ChatBotPage
 import com.jucode.nutrisport.profile.ProfilePage
 import com.jucode.nutrisport.search.SearchPage
+import org.koin.compose.koinInject
 
 @Composable
 fun MainNavigation() {
-    val backStack = remember { mutableStateListOf<Any>(Screen.Login) }
-    
-    val currentScreen = backStack.lastOrNull()
-    val showBottomBar = currentScreen != Screen.Login
+    val backStack = remember { mutableStateListOf<Any>(Screen.Home) }
+    val navigationManager = koinInject<NavigationManager>()
+
+    LaunchedEffect(Unit) {
+        navigationManager.shortcutEvents.collect { shortcutId ->
+            when (shortcutId) {
+                "deals" -> {
+                    backStack.clear()
+                    backStack.add(Screen.Deal)
+                }
+                "cart" -> {
+                    backStack.clear()
+                    backStack.add(Screen.Cart)
+                }
+            }
+        }
+    }
 
     Scaffold(
         bottomBar = { 
-            if (showBottomBar) {
-                BottomNavigationBar(backStack) 
-            }
+            BottomNavigationBar(backStack) 
         }
     ) { paddingValues ->
         NavDisplay(
@@ -44,12 +56,6 @@ fun MainNavigation() {
             onBack = { backStack.removeLastOrNull() },
             entryProvider = { key ->
                 when (key) {
-                    is Screen.Login -> NavEntry(key) {
-                        LoginPage(onLoginSuccess = {
-                            backStack.clear()
-                            backStack.add(Screen.Home)
-                        })
-                    }
                     is Screen.Home -> NavEntry(key) {
                         DashboardPage(
                             onProductClick = { product ->

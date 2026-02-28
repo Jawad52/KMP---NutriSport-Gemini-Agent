@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">NutriSport</string>
+    <string name="shortcut_deals_label">Deals</string>
+    <string name="shortcut_cart_label">Cart</string>
 </resources>
