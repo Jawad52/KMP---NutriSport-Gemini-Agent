@@ -79,6 +79,35 @@ android {
         versionCode = 1
         versionName = "1.0"
     }
+
+    buildFeatures {
+        buildConfig = true
+    }
+
+    flavorDimensions += "environment"
+    productFlavors {
+        create("sit") {
+            dimension = "environment"
+            applicationIdSuffix = ".sit"
+            buildConfigField("String", "BASE_URL", "\"https://sit-api.nutrisport.com\"")
+            buildConfigField("int", "PORT", "8080")
+            buildConfigField("String", "SSL_PINNING_KEY", "\"sha256/SIT_UAT_SHARED_KEY\"")
+        }
+        create("uat") {
+            dimension = "environment"
+            applicationIdSuffix = ".uat"
+            buildConfigField("String", "BASE_URL", "\"https://uat-api.nutrisport.com\"")
+            buildConfigField("int", "PORT", "8080")
+            buildConfigField("String", "SSL_PINNING_KEY", "\"sha256/SIT_UAT_SHARED_KEY\"")
+        }
+        create("prod") {
+            dimension = "environment"
+            buildConfigField("String", "BASE_URL", "\"https://api.nutrisport.com\"")
+            buildConfigField("int", "PORT", "443")
+            buildConfigField("String", "SSL_PINNING_KEY", "\"sha256/PROD_UNIQUE_KEY\"")
+        }
+    }
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"

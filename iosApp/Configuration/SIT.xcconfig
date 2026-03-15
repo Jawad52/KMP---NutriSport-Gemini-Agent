@@ -1,0 +1,7 @@
+#include "Config.xcconfig"
+
+BASE_URL = sit-api.nutrisport.com
+PORT = 8080
+SSL_PINNING_KEY = sha256/SIT_UAT_SHARED_KEY
+APP_NAME = NutriSport SIT
+APP_BUNDLE_ID = com.jucode.nutrisport.sit

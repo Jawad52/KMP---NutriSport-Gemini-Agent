@@ -1,0 +1,7 @@
+#include "Config.xcconfig"
+
+BASE_URL = api.nutrisport.com
+PORT = 443
+SSL_PINNING_KEY = sha256/PROD_UNIQUE_KEY
+APP_NAME = NutriSport
+APP_BUNDLE_ID = com.jucode.nutrisport
