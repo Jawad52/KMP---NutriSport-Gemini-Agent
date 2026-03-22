@@ -100,13 +100,42 @@ object MockData {
     val promotions = listOf(
         "Summer Sale: 20% OFF",
         "Free Shipping on orders over $50",
-        "New Flavor: Tropical Punch is here!"
+        "New Flavor: Tropical Punch is here!",
+        "Flash Sale: Extra 10% OFF on BCAA",
+        "Join our Loyalty Program for rewards"
     )
 
     val banners = listOf(
-        Banner("1", "https://picsum.photos/800/400?random=1", "Summer Sale: 20% OFF"),
-        Banner("2", "https://picsum.photos/800/400?random=2", "Free Shipping on orders over $50"),
-        Banner("3", "https://picsum.photos/800/400?random=3", "New Flavor: Tropical Punch is here!")
+        Banner(
+            id = "1", 
+            imageUrl = "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&q=80&w=800", 
+            title = "Unlock Your Peak Performance!",
+            description = "Get personalized nutrition plans tailored to your fitness goals."
+        ),
+        Banner(
+            id = "2", 
+            imageUrl = "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&q=80&w=800", 
+            title = "Fuel Your Muscle Growth",
+            description = "Premium Whey Protein Isolate now with 20% discount."
+        ),
+        Banner(
+            id = "3", 
+            imageUrl = "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=800", 
+            title = "Yoga & Wellness Week",
+            description = "Rejuvenate your body with our new organic supplement range."
+        ),
+        Banner(
+            id = "4", 
+            imageUrl = "https://images.unsplash.com/photo-1594882645126-14020914d58d?auto=format&fit=crop&q=80&w=800", 
+            title = "Intense Cardio Prep",
+            description = "Stay hydrated and energized with our electrolytes blend."
+        ),
+        Banner(
+            id = "5", 
+            imageUrl = "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=800", 
+            title = "Healthy Clean Eating",
+            description = "Complete your diet with our vegan-friendly superfood snacks."
+        )
     )
 
     fun getProductById(id: String?) = allProducts.find { it.id == id }
