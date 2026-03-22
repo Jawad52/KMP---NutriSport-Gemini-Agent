@@ -9,7 +9,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -26,12 +26,19 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import coil3.compose.AsyncImage
 import com.jucode.nutrisport.MockData
+import com.jucode.nutrisport.dashboard.domain.Banner
 import kotlin.math.absoluteValue
 
 @Composable
 fun CampaignPopup(onDismiss: () -> Unit) {
-    val banners = MockData.banners.take(5)
-    val pagerState = rememberPagerState(pageCount = { banners.size })
+    // Create a mutable state list to manage the banners dynamically
+    val currentBanners = remember { 
+        mutableStateListOf<Banner>().apply { 
+            addAll(MockData.banners.take(5)) 
+        } 
+    }
+    
+    val pagerState = rememberPagerState(pageCount = { currentBanners.size })
 
     Dialog(
         onDismissRequest = onDismiss,
@@ -57,15 +64,14 @@ fun CampaignPopup(onDismiss: () -> Unit) {
                     contentPadding = PaddingValues(horizontal = 32.dp),
                     pageSpacing = 16.dp
                 ) { page ->
-                    val banner = banners[page]
+                    // Guard against potential out-of-bounds during removal animation
+                    val banner = currentBanners.getOrNull(page) ?: return@HorizontalPager
                     val pageOffset = ((pagerState.currentPage - page) + pagerState.currentPageOffsetFraction).absoluteValue
 
-                    // Each page is now its own clipped card
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
                             .graphicsLayer {
-                                // AI Scaling Effect
                                 val scale = lerp(
                                     start = 0.85f,
                                     stop = 1f,
@@ -82,19 +88,17 @@ fun CampaignPopup(onDismiss: () -> Unit) {
                             .clip(RoundedCornerShape(28.dp))
                             .background(MaterialTheme.colorScheme.surface)
                     ) {
-                        // 1. Background Image
                         AsyncImage(
                             model = banner.imageUrl,
                             contentDescription = null,
                             modifier = Modifier
                                 .fillMaxSize()
                                 .graphicsLayer {
-                                    translationX = pageOffset * 300f // Parallax
+                                    translationX = pageOffset * 300f
                                 },
                             contentScale = ContentScale.Crop
                         )
 
-                        // 2. Full Gradient Overlay
                         Box(
                             modifier = Modifier
                                 .fillMaxSize()
@@ -110,7 +114,6 @@ fun CampaignPopup(onDismiss: () -> Unit) {
                                 )
                         )
 
-                        // 3. Complete Content
                         Column(
                             modifier = Modifier
                                 .fillMaxSize()
@@ -163,7 +166,15 @@ fun CampaignPopup(onDismiss: () -> Unit) {
 
                             Spacer(modifier = Modifier.height(8.dp))
 
-                            TextButton(onClick = onDismiss) {
+                            TextButton(onClick = {
+                                if (currentBanners.size > 1) {
+                                    // Remove the current campaign and show the next one
+                                    currentBanners.removeAt(pagerState.currentPage)
+                                } else {
+                                    // If it's the last campaign, dismiss the whole popup
+                                    onDismiss()
+                                }
+                            }) {
                                 Text(
                                     "Not interested",
                                     color = Color.White.copy(alpha = 0.6f),
@@ -174,7 +185,6 @@ fun CampaignPopup(onDismiss: () -> Unit) {
                     }
                 }
 
-                // Close Button stays fixed in top right of the pager area
                 IconButton(
                     onClick = onDismiss,
                     modifier = Modifier
@@ -190,12 +200,11 @@ fun CampaignPopup(onDismiss: () -> Unit) {
                 }
             }
 
-            // Slider indicators moved outside the HorizontalPager
             Row(
                 modifier = Modifier.padding(top = 16.dp),
                 horizontalArrangement = Arrangement.Center
             ) {
-                repeat(banners.size) { iteration ->
+                repeat(currentBanners.size) { iteration ->
                     val color = if (pagerState.currentPage == iteration) {
                         MaterialTheme.colorScheme.primary
                     } else {
