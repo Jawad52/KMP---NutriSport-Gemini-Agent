@@ -1,6 +1,7 @@
 package com.jucode.nutrisport.deals
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -8,6 +9,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DragIndicator
+import androidx.compose.material.icons.filled.LocalOffer
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.*
@@ -27,7 +29,7 @@ import com.jucode.nutrisport.Product
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DealsPage(onCartClick: () -> Unit) {
+fun DealsPage(onCartClick: () -> Unit, onOfferClick: () -> Unit) {
     var selectedTab by remember { mutableStateOf(1) } // 0: Today's Deals, 1: Flash Sales, 2: Bundles
 
     Column(
@@ -35,7 +37,7 @@ fun DealsPage(onCartClick: () -> Unit) {
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        // Custom Top Bar Area as per attachment
+        // Custom Top Bar Area
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -51,14 +53,19 @@ fun DealsPage(onCartClick: () -> Unit) {
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text(
-                        "DEALS",
-                        style = MaterialTheme.typography.titleLarge.copy(
-                            fontWeight = FontWeight.Bold,
-                            color = Color.White,
-                            letterSpacing = 1.sp
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        IconButton(onClick = onOfferClick) {
+                            Icon(Icons.Default.LocalOffer, contentDescription = "Offers", tint = Color.White)
+                        }
+                        Text(
+                            "DEALS",
+                            style = MaterialTheme.typography.titleLarge.copy(
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White,
+                                letterSpacing = 1.sp
+                            )
                         )
-                    )
+                    }
                     IconButton(onClick = onCartClick) {
                         Icon(Icons.Default.ShoppingCart, contentDescription = "Cart", tint = Color.White)
                     }
