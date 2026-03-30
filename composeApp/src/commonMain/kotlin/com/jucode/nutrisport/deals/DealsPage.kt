@@ -29,7 +29,7 @@ import com.jucode.nutrisport.Product
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DealsPage(onCartClick: () -> Unit, onOfferClick: () -> Unit) {
+fun DealsPage(onOfferClick: () -> Unit) {
     var selectedTab by remember { mutableStateOf(1) } // 0: Today's Deals, 1: Flash Sales, 2: Bundles
 
     Column(
@@ -49,25 +49,20 @@ fun DealsPage(onCartClick: () -> Unit, onOfferClick: () -> Unit) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 8.dp, vertical = 8.dp),
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        IconButton(onClick = onOfferClick) {
-                            Icon(Icons.Default.LocalOffer, contentDescription = "Offers", tint = Color.White)
-                        }
-                        Text(
-                            "DEALS",
-                            style = MaterialTheme.typography.titleLarge.copy(
-                                fontWeight = FontWeight.Bold,
-                                color = Color.White,
-                                letterSpacing = 1.sp
-                            )
+                    Text(
+                        "DEALS",
+                        style = MaterialTheme.typography.titleLarge.copy(
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White,
+                            letterSpacing = 1.sp
                         )
-                    }
-                    IconButton(onClick = onCartClick) {
-                        Icon(Icons.Default.ShoppingCart, contentDescription = "Cart", tint = Color.White)
+                    )
+                    IconButton(onClick = onOfferClick) {
+                        Icon(Icons.Default.LocalOffer, contentDescription = "Offers", tint = Color.White)
                     }
                 }
 
