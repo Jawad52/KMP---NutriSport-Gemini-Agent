@@ -69,10 +69,6 @@ fun MainNavigation() {
                     is Screen.Cart -> NavEntry(key) { CartPage() }
                     is Screen.Deal -> NavEntry(key) { 
                         DealsPage(
-                            onCartClick = {
-                                backStack.clear()
-                                backStack.add(Screen.Cart)
-                            },
                             onOfferClick = {
                                 backStack.add(Screen.PromoCode)
                             }
