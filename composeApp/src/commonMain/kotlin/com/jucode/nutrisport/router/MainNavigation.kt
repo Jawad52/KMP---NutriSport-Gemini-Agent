@@ -19,6 +19,7 @@ import com.jucode.nutrisport.cart.CartPage
 import com.jucode.nutrisport.dashboard.DashboardPage
 import com.jucode.nutrisport.dashboard.ProductDetailsPage
 import com.jucode.nutrisport.deals.DealsPage
+import com.jucode.nutrisport.deals.PromoCodePage
 import com.jucode.nutrisport.notificaiton.NotificationPage
 import com.jucode.nutrisport.profile.ChatBotPage
 import com.jucode.nutrisport.profile.ProfilePage
@@ -68,9 +69,8 @@ fun MainNavigation() {
                     is Screen.Cart -> NavEntry(key) { CartPage() }
                     is Screen.Deal -> NavEntry(key) { 
                         DealsPage(
-                            onCartClick = {
-                                backStack.clear()
-                                backStack.add(Screen.Cart)
+                            onOfferClick = {
+                                backStack.add(Screen.PromoCode)
                             }
                         ) 
                     }
@@ -93,6 +93,9 @@ fun MainNavigation() {
                     }
                     is Screen.ChatBot -> NavEntry(key) {
                         ChatBotPage(onBack = { backStack.removeLastOrNull() })
+                    }
+                    is Screen.PromoCode -> NavEntry(key) {
+                        PromoCodePage(onBack = { backStack.removeLastOrNull() })
                     }
                     else -> NavEntry(key) { PlaceholderScreen(key.toString()) }
                 }

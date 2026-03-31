@@ -1,6 +1,7 @@
 package com.jucode.nutrisport.deals
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -8,6 +9,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DragIndicator
+import androidx.compose.material.icons.filled.LocalOffer
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.*
@@ -27,7 +29,7 @@ import com.jucode.nutrisport.Product
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DealsPage(onCartClick: () -> Unit) {
+fun DealsPage(onOfferClick: () -> Unit) {
     var selectedTab by remember { mutableStateOf(1) } // 0: Today's Deals, 1: Flash Sales, 2: Bundles
 
     Column(
@@ -35,7 +37,7 @@ fun DealsPage(onCartClick: () -> Unit) {
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        // Custom Top Bar Area as per attachment
+        // Custom Top Bar Area
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -47,7 +49,7 @@ fun DealsPage(onCartClick: () -> Unit) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 8.dp, vertical = 8.dp),
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
@@ -59,8 +61,8 @@ fun DealsPage(onCartClick: () -> Unit) {
                             letterSpacing = 1.sp
                         )
                     )
-                    IconButton(onClick = onCartClick) {
-                        Icon(Icons.Default.ShoppingCart, contentDescription = "Cart", tint = Color.White)
+                    IconButton(onClick = onOfferClick) {
+                        Icon(Icons.Default.LocalOffer, contentDescription = "Offers", tint = Color.White)
                     }
                 }
 
