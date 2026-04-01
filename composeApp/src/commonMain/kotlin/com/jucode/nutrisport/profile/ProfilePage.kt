@@ -24,7 +24,7 @@ import com.jucode.nutrisport.profile.template.ThemeLayout
 fun ProfilePage(onContactUsClick: () -> Unit) {
     var showEditDialog by remember { mutableStateOf(false) }
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = Modifier.statusBarsPadding().fillMaxSize()) {
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
