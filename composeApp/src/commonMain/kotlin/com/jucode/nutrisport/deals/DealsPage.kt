@@ -1,22 +1,45 @@
 package com.jucode.nutrisport.deals
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DragIndicator
 import androidx.compose.material.icons.filled.LocalOffer
 import androidx.compose.material.icons.filled.Schedule
-import androidx.compose.material.icons.filled.ShoppingCart
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
@@ -27,52 +50,184 @@ import coil3.compose.AsyncImage
 import com.jucode.nutrisport.MockData
 import com.jucode.nutrisport.Product
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun DealsPage(onOfferClick: () -> Unit) {
     var selectedTab by remember { mutableStateOf(1) } // 0: Today's Deals, 1: Flash Sales, 2: Bundles
+    val lazyListState = rememberLazyListState()
+
+    // Sticky header detection
+    val isLayer2Stuck by remember {
+        derivedStateOf {
+            lazyListState.firstVisibleItemIndex > 1 || 
+            (lazyListState.firstVisibleItemIndex == 1 && lazyListState.firstVisibleItemScrollOffset > 0)
+        }
+    }
+
+    val gradientColors = listOf(
+        MaterialTheme.colorScheme.primary,
+        MaterialTheme.colorScheme.primary.copy(alpha = 0.85f),
+        MaterialTheme.colorScheme.primary.copy(alpha = 0.7f)
+    )
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        // Custom Top Bar Area
+        // Fixed Top Bar Area (Title and Icon)
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.9f))
+                .background(MaterialTheme.colorScheme.primary)
                 .statusBarsPadding()
-                .padding(bottom = 16.dp)
+                .padding(horizontal = 16.dp, vertical = 12.dp)
         ) {
-            Column {
-                Row(
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    "DEALS",
+                    style = MaterialTheme.typography.titleLarge.copy(
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White,
+                        letterSpacing = 1.sp
+                    )
+                )
+                IconButton(onClick = onOfferClick) {
+                    Icon(Icons.Default.LocalOffer, contentDescription = "Offers", tint = Color.White)
+                }
+            }
+        }
+
+        LazyColumn(
+            state = lazyListState,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            // Layer 1: Number of coupons
+            item {
+                Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
+                        .background(Brush.verticalGradient(listOf(gradientColors[0], gradientColors[1])))
+                        .padding(vertical = 24.dp),
+                    contentAlignment = Alignment.Center
                 ) {
-                    Text(
-                        "DEALS",
-                        style = MaterialTheme.typography.titleLarge.copy(
-                            fontWeight = FontWeight.Bold,
-                            color = Color.White,
-                            letterSpacing = 1.sp
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text(
+                            "12",
+                            style = MaterialTheme.typography.displayLarge.copy(
+                                fontWeight = FontWeight.Black,
+                                color = Color.White
+                            )
                         )
-                    )
-                    IconButton(onClick = onOfferClick) {
-                        Icon(Icons.Default.LocalOffer, contentDescription = "Offers", tint = Color.White)
+                        Text(
+                            "COUPONS AVAILABLE",
+                            style = MaterialTheme.typography.labelLarge.copy(
+                                color = Color.White.copy(alpha = 0.8f),
+                                letterSpacing = 2.sp
+                            )
+                        )
                     }
                 }
+            }
 
-                Spacer(modifier = Modifier.height(8.dp))
+            // Layer 2: Total used (Left) and Left (Right) - Sticky
+            stickyHeader {
+                val backgroundColor = if (isLayer2Stuck) {
+                    MaterialTheme.colorScheme.secondaryContainer
+                } else {
+                    gradientColors[1]
+                }
+                val contentColor = if (isLayer2Stuck) {
+                    MaterialTheme.colorScheme.onSecondaryContainer
+                } else {
+                    Color.White
+                }
+                
+                // Increase font size when stuck
+                val numberFontSize = if (isLayer2Stuck) 28.sp else 20.sp
 
-                // Tabs
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
+                        .background(backgroundColor)
+                        .padding(horizontal = 32.dp, vertical = 16.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Column {
+                        Text(
+                            "TOTAL USED",
+                            style = MaterialTheme.typography.labelSmall.copy(color = contentColor.copy(alpha = 0.7f))
+                        )
+                        Text(
+                            "1,245",
+                            style = MaterialTheme.typography.titleLarge.copy(
+                                fontWeight = FontWeight.Bold,
+                                color = contentColor,
+                                fontSize = numberFontSize
+                            )
+                        )
+                    }
+                    Column(horizontalAlignment = Alignment.End) {
+                        Text(
+                            "COUPONS LEFT",
+                            style = MaterialTheme.typography.labelSmall.copy(color = contentColor.copy(alpha = 0.7f))
+                        )
+                        Text(
+                            "08",
+                            style = MaterialTheme.typography.titleLarge.copy(
+                                fontWeight = FontWeight.Bold,
+                                color = contentColor,
+                                fontSize = numberFontSize
+                            )
+                        )
+                    }
+                }
+            }
+
+            // Layer 3: Last used coupon and offer value
+            item {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Brush.verticalGradient(listOf(gradientColors[1], gradientColors[2])))
+                        .padding(vertical = 20.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Surface(
+                        color = Color.White.copy(alpha = 0.15f),
+                        shape = RoundedCornerShape(24.dp)
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                "Last used: ",
+                                style = MaterialTheme.typography.bodyMedium.copy(color = Color.White.copy(alpha = 0.8f))
+                            )
+                            Text(
+                                "FLASH50 ($25.00 OFF)",
+                                style = MaterialTheme.typography.bodyLarge.copy(
+                                    fontWeight = FontWeight.ExtraBold,
+                                    color = Color.White
+                                )
+                            )
+                        }
+                    }
+                }
+            }
+
+            // Tabs Area
+            item {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     DealsTab(
@@ -95,18 +250,31 @@ fun DealsPage(onOfferClick: () -> Unit) {
                     )
                 }
             }
-        }
 
-        // Product Grid
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            contentPadding = PaddingValues(12.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-            modifier = Modifier.fillMaxSize()
-        ) {
-            items(MockData.allProducts) { product ->
-                DealCard(product)
+            // Product Grid (Chunked for LazyColumn)
+            val products = MockData.allProducts
+            items(products.chunked(2)) { pair ->
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 12.dp, vertical = 6.dp),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    Box(modifier = Modifier.weight(1f)) {
+                        DealCard(pair[0])
+                    }
+                    if (pair.size > 1) {
+                        Box(modifier = Modifier.weight(1f)) {
+                            DealCard(pair[1])
+                        }
+                    } else {
+                        Spacer(modifier = Modifier.weight(1f))
+                    }
+                }
+            }
+
+            item {
+                Spacer(modifier = Modifier.height(16.dp))
             }
         }
     }
@@ -117,14 +285,14 @@ fun DealsTab(text: String, selected: Boolean, modifier: Modifier = Modifier, onC
     Surface(
         onClick = onClick,
         modifier = modifier.height(40.dp),
-        color = if (selected) MaterialTheme.colorScheme.secondary.copy(alpha = 0.8f) else Color.Transparent,
+        color = if (selected) MaterialTheme.colorScheme.secondary.copy(alpha = 0.8f) else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
         shape = RoundedCornerShape(8.dp)
     ) {
         Box(contentAlignment = Alignment.Center) {
             Text(
                 text = text,
                 style = MaterialTheme.typography.labelLarge.copy(
-                    color = if (selected) Color.Black else Color.White.copy(alpha = 0.8f),
+                    color = if (selected) Color.Black else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
                     fontWeight = if (selected) FontWeight.Bold else FontWeight.Medium
                 ),
                 textAlign = TextAlign.Center
@@ -148,7 +316,7 @@ fun DealCard(product: Product) {
                         .fillMaxWidth()
                         .height(140.dp)
                         .clip(RoundedCornerShape(8.dp))
-                        .background(Color.White.copy(alpha = 0.05f)), // Subtle background for image
+                        .background(Color.White.copy(alpha = 0.05f)),
                     contentAlignment = Alignment.Center
                 ) {
                     AsyncImage(
