@@ -29,7 +29,6 @@ fun DashboardPage(
 
     if (showCampaign) {
         CampaignPopup(onDismiss = {
-            showCampaign = false
             hasShownCampaignThisSession = true
         })
     }
@@ -42,7 +41,7 @@ fun DashboardPage(
                 .fillMaxSize()
                 .padding(padding)
                 .background(MaterialTheme.colorScheme.background),
-            contentPadding = PaddingValues(bottom = 16.dp)
+            contentPadding = PaddingValues(bottom = 100.dp) // Added padding for floating bottom bar
         ) {
             item { PromotionSlider(banners = MockData.banners) }
             item { CategoryRow() }
