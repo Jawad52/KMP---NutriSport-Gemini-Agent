@@ -1,11 +1,8 @@
 package com.jucode.nutrisport.router
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -13,7 +10,6 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.ui.NavDisplay
 import com.jucode.nutrisport.BottomNavigationBar
@@ -48,15 +44,10 @@ fun MainNavigation() {
         }
     }
 
-    Scaffold(
-        bottomBar = { 
-            BottomNavigationBar(backStack) 
-        },
-        contentWindowInsets = WindowInsets(0, 0, 0, 0)
-    ) { paddingValues ->
+    Box(modifier = Modifier.fillMaxSize()) {
         NavDisplay(
             backStack = backStack,
-            modifier = Modifier.padding(paddingValues),
+            modifier = Modifier.fillMaxSize(),
             onBack = { backStack.removeLastOrNull() },
             entryProvider = { key ->
                 when (key) {
@@ -104,6 +95,10 @@ fun MainNavigation() {
                 }
             }
         )
+
+        Box(modifier = Modifier.align(Alignment.BottomCenter)) {
+            BottomNavigationBar(backStack)
+        }
     }
 }
 
