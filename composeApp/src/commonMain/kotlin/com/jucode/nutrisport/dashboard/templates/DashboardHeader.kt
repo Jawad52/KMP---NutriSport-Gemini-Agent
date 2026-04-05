@@ -1,6 +1,8 @@
 package com.jucode.nutrisport.dashboard.templates
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.border
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -24,11 +26,13 @@ import coil3.compose.AsyncImage
 import com.jucode.nutrisport.UserSettings
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun DashboardHeader(
     onSearchClick: () -> Boolean,
-    onNotificationClick: () -> Boolean) {
+    onNotificationClick: () -> Boolean,
+    onProfileLongPress: () -> Unit = {}
+) {
     TopAppBar(
         title = {
             Text(
@@ -44,7 +48,11 @@ fun DashboardHeader(
                     .padding(8.dp)
                     .size(40.dp)
                     .clip(CircleShape)
-                    .border(2.dp, MaterialTheme.colorScheme.primary, CircleShape),
+                    .border(2.dp, MaterialTheme.colorScheme.primary, CircleShape)
+                    .combinedClickable(
+                        onClick = { /* Optional: handle regular click */ },
+                        onLongClick = onProfileLongPress
+                    ),
                 contentScale = ContentScale.Crop
             )
         },

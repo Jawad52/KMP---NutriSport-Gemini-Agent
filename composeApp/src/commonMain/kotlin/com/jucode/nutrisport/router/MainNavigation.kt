@@ -14,6 +14,7 @@ import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.ui.NavDisplay
 import com.jucode.nutrisport.BottomNavigationBar
 import com.jucode.nutrisport.cart.CartPage
+import com.jucode.nutrisport.cart.MapPage
 import com.jucode.nutrisport.dashboard.DashboardPage
 import com.jucode.nutrisport.dashboard.ProductDetailsPage
 import com.jucode.nutrisport.deals.DealsPage
@@ -57,10 +58,13 @@ fun MainNavigation() {
                                 backStack.add(Screen.ProductDetails(product.id))
                             },
                             onSearchClick = { backStack.add(Screen.Search) },
-                            onNotificationClick = { backStack.add(Screen.Notification) }
+                            onNotificationClick = { backStack.add(Screen.Notification) },
+                            onProfileLongPress = { backStack.add(Screen.Map) }
                         )
                     }
-                    is Screen.Cart -> NavEntry(key) { CartPage() }
+                    is Screen.Cart -> NavEntry(key) { 
+                        CartPage() 
+                    }
                     is Screen.Deal -> NavEntry(key) { 
                         DealsPage(
                             onOfferClick = {
@@ -91,13 +95,27 @@ fun MainNavigation() {
                     is Screen.PromoCode -> NavEntry(key) {
                         PromoCodePage(onBack = { backStack.removeLastOrNull() })
                     }
+                    is Screen.Map -> NavEntry(key) {
+                        MapPage(
+                            onBack = { backStack.removeLastOrNull() },
+                            onLocationSelected = { address ->
+                                // Handle location selection
+                                backStack.removeLastOrNull()
+                            }
+                        )
+                    }
                     else -> NavEntry(key) { PlaceholderScreen(key.toString()) }
                 }
             }
         )
 
-        Box(modifier = Modifier.align(Alignment.BottomCenter)) {
-            BottomNavigationBar(backStack)
+        // Only show BottomBar if the current screen is a top-level destination
+        val currentScreen = backStack.lastOrNull()
+        if (currentScreen is Screen.Home || currentScreen is Screen.Cart || 
+            currentScreen is Screen.Deal || currentScreen is Screen.Profile) {
+            Box(modifier = Modifier.align(Alignment.BottomCenter)) {
+                BottomNavigationBar(backStack)
+            }
         }
     }
 }

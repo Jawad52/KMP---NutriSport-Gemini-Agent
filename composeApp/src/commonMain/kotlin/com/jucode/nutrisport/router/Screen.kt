@@ -18,4 +18,5 @@ sealed class Screen(val icon: ImageVector? = null, val label: String? = null) {
     object Notification : Screen()
     object ChatBot : Screen()
     object PromoCode : Screen()
+    object Map : Screen()
 }
