@@ -17,9 +17,9 @@ object ThemeSettings {
 }
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Color(0xFF00E5FF), // Electric Blue
-    secondary = Color(0xFF00FFD1), // Neon Mint
-    tertiary = Color(0xFFBB86FC),
+    primary = Color(0xFFFFB300), // Warm Amber
+    secondary = Color(0xFFFF8F00), // Deep Amber
+    tertiary = Color(0xFFFF7043), // Warm Coral/Deep Orange
     background = Color(0xFF121212),
     surface = Color(0xFF1E1E1E),
     onPrimary = Color.Black,
@@ -29,13 +29,13 @@ private val DarkColorScheme = darkColorScheme(
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Color(0xFF00B8D4), // Darker Electric Blue for contrast
-    secondary = Color(0xFF00BFA5), // Darker Neon Mint for contrast
-    tertiary = Color(0xFF6200EE),
-    background = Color(0xFFF5F5F5),
+    primary = Color(0xFFF57C00), // Orange
+    secondary = Color(0xFFFFB300), // Amber
+    tertiary = Color(0xFFE64A19), // Deep Orange
+    background = Color(0xFFFFFBF0), // Warm Off-White
     surface = Color.White,
     onPrimary = Color.White,
-    onSecondary = Color.White,
+    onSecondary = Color.Black,
     onBackground = Color.Black,
     onSurface = Color.Black,
 )
