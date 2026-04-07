@@ -29,6 +29,7 @@ fun DashboardPage(
 
     if (showCampaign) {
         CampaignPopup(onDismiss = {
+            showCampaign = false
             hasShownCampaignThisSession = true
         })
     }
