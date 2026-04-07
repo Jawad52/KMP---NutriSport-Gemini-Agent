@@ -23,18 +23,25 @@ private var hasShownCampaignThisSession = false
 fun DashboardPage(
     onProductClick: (Product) -> Unit,
     onSearchClick: () -> Boolean,
-    onNotificationClick: () -> Boolean
+    onNotificationClick: () -> Boolean,
+    onProfileLongPress: () -> Unit = {}
 ) {
     var showCampaign by remember { mutableStateOf(!hasShownCampaignThisSession) }
 
     if (showCampaign) {
-        CampaignPopup(onDismiss = {
-            hasShownCampaignThisSession = true
-        })
+//        CampaignPopup(onDismiss = {
+//            hasShownCampaignThisSession = true
+//        })
     }
 
     Scaffold(
-        topBar = { DashboardHeader(onSearchClick, onNotificationClick) }
+        topBar = { 
+            DashboardHeader(
+                onSearchClick = onSearchClick, 
+                onNotificationClick = onNotificationClick,
+                onProfileLongPress = onProfileLongPress
+            ) 
+        }
     ) { padding ->
         LazyColumn(
             modifier = Modifier
