@@ -33,6 +33,8 @@ kotlin {
             implementation(libs.androidx.splash.screen)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.koin.android)
+            implementation(libs.google.maps.compose)
+            implementation(libs.google.play.services.maps)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
